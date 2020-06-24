@@ -1,0 +1,13 @@
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+smart-home-key.json
+# Intellij
+*.iml
+*.iws
+.idea/
+build/
+.gradle/
