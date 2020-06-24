@@ -1,3 +1,5 @@
+# NOTE: The instructions below were based on Google Sample Project smart-home-java
+
 # Actions on Google: Java Smart Home Sample
 
 This sample to help you get started quickly with the Java smart home library for Actions on Google.
@@ -45,16 +47,16 @@ account credentials.
 
 1. Navigate back to the [Actions on Google Console](https://console.actions.google.com).
 1. From the top menu under **Develop**, click on **Actions** (left nav). Click on **Add your first action** and choose your app's language(s).
-1. Enter the URL for fulfillment, e.g. https://xyz123.appspot.com/smarthome, click **Done**.
+1. Enter the URL for fulfillment, e.g. https://your_project_id.appspot.com/smarthome, click **Done**.
 1. From the top menu under **Develop**, click on **Account Linking** (left nav).
 1. Select **No, I only want to allow account creation on my website**. Click **Next**.
 1. For Linking Type, select **OAuth**.
 1. For Grant Type, select 'Authorization Code' for Grant Type.
 1. Under Client Information, enter the client ID and secret from earlier.
 1. The Authorization URL is the hosted URL of your app with '/fakeauth' as the
-path, e.g. https://xyz123.appspot.com/fakeauth
+path, e.g. https://your_project_id.appspot.com/fakeauth
 1. The Token URL is the hosted URL of your app with '/faketoken' as the path,
-e.g. https://xyz123.appspot.com/faketoken
+e.g. https://your_project_id.appspot.com/faketoken
 1. Enter any remaining necessary information you might need for
 authentication your app. Click **Save**.
 1. On the left navigation menu under **Test**, click on **Simulator**, to begin testing this app.
