@@ -3,6 +3,9 @@
 # Java Smart Home Sample with MQTT interface to connect to IOT devices (ESP8266/Arduino/ESP32)
 
 This sample adaptation with MQTT is to help you get started quickly with the Java smart home library for Actions on Google.
+This example was used in the tutorial : How to connect ESP8266 and Arduino with Google Assistant and Google Home App without IFTTT
+https://youtu.be/0czm7VIgoZs - Part 2
+https://youtu.be/-tnYAI3mE24 - Part 1 
 
 ## Setup Instructions
 
