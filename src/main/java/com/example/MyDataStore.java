@@ -211,23 +211,23 @@ public class MyDataStore {
             throw new Exception("deviceOffline");
         }
 
-        if (!device.getString("errorCode").isEmpty()) {
+        if (device.contains("errorCode") && !device.getString("errorCode").isEmpty()) {
             throw new Exception(device.getString("errorCode"));
         }
 
-        // TODO: Find permanent solution for code below
-        /*
-         * if (device.getString("tfa").equals("ack") && execution.getChallenge() == null) {
-         * throw new Exception("ackNeeded");
-         * } else if (!device.getString("tfa").isEmpty() && execution.getChallenge() == null) {
-         * throw new Exception("pinNeeded");
-         * } else if (!device.getString("tfa").isEmpty() && execution.getChallenge() != null) {
-         * String pin = (String) execution.getChallenge().get("pin");
-         * if (pin != null && !pin.equals(device.getString("tfa"))) {
-         * throw new Exception("challengeFailedPinNeeded");
-         * }
-         * }
-         */
+        if (device.contains("tfa")) {
+            if (device.getString("tfa").equals("ack") && execution.getChallenge() == null) {
+                throw new Exception("ackNeeded");
+            } else if (!device.getString("tfa").isEmpty() && execution.getChallenge() == null) {
+                throw new Exception("pinNeeded");
+            } else if (!device.getString("tfa").isEmpty() && execution.getChallenge() != null) {
+                String pin = (String) execution.getChallenge().get("pin");
+                if (pin != null && !pin.equals(device.getString("tfa"))) {
+                    throw new Exception("challengeFailedPinNeeded");
+                }
+            }
+        }
+        
         LOGGER.debug("switch execution command MyDataStore line 223");
 
         switch (execution.command) {
@@ -361,7 +361,7 @@ public class MyDataStore {
                         }
                     }
                 }
-                states.put(colorType, color);
+                //states.put(colorType, color);
                 // ------ mqtt sending message to device ----------
                 publishMqtt(deviceId, colorType, color);
                 // ----------------------------------------------
@@ -425,6 +425,13 @@ public class MyDataStore {
                 }
                 break;
 
+            case "action.devices.commands.selectChannel":
+                // "params":{"channelCode":"cnn","channelName":"CNN","channelNumber":"200"}
+
+                // ------ mqtt sending message to device ----------
+                publishMqtt(deviceId, "channelNumber", execution.getParams().get("channelNumber"));
+
+                break;
             // action.devices.traits.Dispense
             case "action.devices.commands.Dispense":
                 int amount = (int) execution.getParams().get("amount");
