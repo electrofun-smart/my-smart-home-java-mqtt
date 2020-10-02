@@ -14,8 +14,13 @@
 package com.example;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Properties;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -51,6 +56,8 @@ import com.google.auth.oauth2.GoogleCredentials;
 public class MyMqtt implements MqttCallback {
     private static final Logger LOGGER = LoggerFactory.getLogger(MySmartHomeApp.class);
     private final SmartHomeApp actionsApp = new MySmartHomeApp();
+    private String mqttuser, mqttpwd, mqttbroker, mqttclientid, mqttcleansession, mqttquietmode;
+    InputStream inputStream;
 
     {
         try {
@@ -61,17 +68,6 @@ public class MyMqtt implements MqttCallback {
             LOGGER.error("couldn't load credentials");
         }
     }
-
-    public MyMqtt() throws MqttException {
-        this(
-                "wss://broker.shiftr.io", // you can change to another mqtt broker
-                "SmartHomeJava",
-                false,
-                false,
-                "5aa5dcec", // change to your username
-                "474e04ff2059e914"); // change to your password
-    }
-
     /**
      * This is just for test purpose, just to verify connectivity
      * with your mqtt broker
@@ -136,22 +132,42 @@ public class MyMqtt implements MqttCallback {
 
     /**
      * Constructs an instance of the sample client wrapper
-     * 
-     * @param brokerUrl the url of the server to connect to
-     * @param clientId the client id to connect with
-     * @param cleanSession clear state at end of connection or not (durable or non-durable subscriptions)
-     * @param quietMode whether debug should be printed to standard out
-     * @param userName the username to connect with
-     * @param password the password for the user
-     * @throws MqttException
+     *
      */
-    public MyMqtt(String brokerUrl, String clientId, boolean cleanSession, boolean quietMode, String userName, String password)
-            throws MqttException {
-        this.brokerUrl = brokerUrl;
-        this.quietMode = quietMode;
-        clean = cleanSession;
-        this.password = password;
-        this.userName = userName;
+    public MyMqtt()
+            throws MqttException, IOException {
+
+        try {
+            Properties prop = new Properties();
+            String propFileName = "mqtt.properties";
+
+            inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+            if (inputStream != null) {
+                prop.load(inputStream);
+            } else {
+                throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+            }
+
+            // get the property value and print it out
+            mqttbroker = prop.getProperty("broker");
+            mqttclientid = prop.getProperty("clientid");
+            mqttcleansession = prop.getProperty("cleansession");
+            mqttquietmode = prop.getProperty("quietmode");
+            mqttuser = prop.getProperty("user");
+            mqttpwd = prop.getProperty("pwd");
+
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        } finally {
+            inputStream.close();
+        }
+
+        this.brokerUrl = mqttbroker;
+        this.quietMode = Boolean.valueOf(mqttquietmode);
+        clean = Boolean.valueOf(mqttcleansession);
+        this.password = mqttpwd;
+        this.userName = mqttuser;
         // This sample stores in a temporary directory... where messages temporarily
         // stored until the message has been delivered to the server.
         // ..a real application ought to store them somewhere
@@ -172,7 +188,7 @@ public class MyMqtt implements MqttCallback {
             }
 
             // Construct an MQTT blocking mode client
-            client = new MqttClient(this.brokerUrl, clientId, dataStore);
+            client = new MqttClient(this.brokerUrl, mqttclientid, dataStore);
 
             // Set this wrapper as the callback handler
             client.setCallback(this);

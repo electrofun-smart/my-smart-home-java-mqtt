@@ -13,6 +13,7 @@
 
 package com.example;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -51,7 +52,7 @@ public class MyDataStore {
     static {
         try {
             mqtt = new MyMqtt();
-        } catch (MqttException e) {
+        } catch (MqttException | IOException e) {
             LOGGER.error("Error when creating sample mqtt " + e);
         }
     }
