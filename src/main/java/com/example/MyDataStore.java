@@ -423,6 +423,7 @@ public class MyDataStore {
                     states.put("currentCookingMode", "NONE");
                     states.put("currentFoodPreset", "NONE");
                 }
+                publishMqtt(deviceId, "start", execution.getParams().get("start"));
                 break;
 
             case "action.devices.commands.selectChannel":
