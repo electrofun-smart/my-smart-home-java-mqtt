@@ -68,8 +68,8 @@ public class MyMqtt implements MqttCallback {
                 "SmartHomeJava",
                 false,
                 false,
-                "3a4635b49a", // change to your username
-                "39023106ad3e64b85"); // change to your password
+                "5aa5dcec", // change to your username
+                "474e04ff2059e914"); // change to your password
     }
 
     /**
