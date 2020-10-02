@@ -5,6 +5,7 @@
 ehthumbs.db
 Thumbs.db
 smart-home-key.json
+mqtt.properties
 # Intellij
 *.iml
 *.iws
