@@ -142,10 +142,10 @@ public class MySmartHomeApp extends SmartHomeApp {
     for (QueryRequest.Inputs.Payload.Device device : devices) {
       try {
         Map<String, Object> deviceState = database.getState(userId, device.id);
-        //deviceState.put("status", "SUCCESS");
-        deviceState.put("online", true); //TODO: Not sure about this line solution
+        deviceState.put("status", "SUCCESS");
+        //deviceState.put("online", true); //TODO: Not sure about this line solution
         deviceStates.put(device.id, deviceState);
-        ReportState.makeRequest(this, userId, device.id, deviceState);
+        //ReportState.makeRequest(this, userId, device.id, deviceState);
       } catch (Exception e) {
         LOGGER.error("QUERY FAILED: {}", e);
         Map<String, Object> failedDevice = new HashMap<>();
